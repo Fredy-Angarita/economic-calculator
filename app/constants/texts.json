@@ -15,6 +15,31 @@
     "result": "Resultado",
     "comingSoon": "Módulo en construcción"
   },
+  "rateConversion": {
+    "title": "Cambio de tasas",
+    "subtitle": "Convierte una tasa de origen a destino antes de calcular.",
+    "from": "Tasa de origen",
+    "to": "Tasa de destino",
+    "valueLabel": "Valor de la tasa (%) — usa punto para decimales",
+    "valuePlaceholder": "Ej: 24",
+    "typeLabel": "Tipo",
+    "periodicityLabel": "Periodicidad",
+    "convert": "Convertir",
+    "resultLabel": "Tasa convertida",
+    "resultDecimalLabel": "Tasa en decimal",
+    "types": {
+      "effective": "Efectiva",
+      "nominal": "Nominal"
+    },
+    "periodicities": {
+      "annual": "Anual",
+      "semiannual": "Semestral",
+      "quarterly4": "Cuatrimestral",
+      "quarterly": "Trimestral",
+      "bimonthly": "Bimestral",
+      "monthly": "Mensual"
+    }
+  },
   "compoundInterest": {
     "title": "Interés compuesto",
     "formula": "VF = VP · (1 + i)^n",
@@ -35,7 +60,7 @@
         "placeholder": "Ej: 1500000"
       },
       "ratePercent": {
-        "label": "Tasa efectiva por periodo (%)",
+        "label": "Tasa efectiva por periodo (%) — usa punto para decimales",
         "placeholder": "Ej: 2 (= 2% por periodo)"
       },
       "periods": {

@@ -11,13 +11,16 @@ useHead({ title: `${COMPOUND_INTEREST_TEXTS.title} · ${APP_TEXTS.title}` })
       <p class="page__formula">{{ COMPOUND_INTEREST_TEXTS.formula }}</p>
     </header>
 
-    <CompoundInterestCalculator />
+    <div class="page__modules">
+      <RateConverter class="page__panel" />
+      <CompoundInterestCalculator class="page__panel" />
+    </div>
   </main>
 </template>
 
 <style scoped>
 .page {
-  max-width: 760px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 3rem 1.5rem 4rem;
 }
@@ -38,5 +41,19 @@ useHead({ title: `${COMPOUND_INTEREST_TEXTS.title} · ${APP_TEXTS.title}` })
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: 1rem;
+}
+
+.page__modules {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.page__panel {
+  flex: 1 1 420px;
+  max-width: 480px;
+  margin: 0;
 }
 </style>
