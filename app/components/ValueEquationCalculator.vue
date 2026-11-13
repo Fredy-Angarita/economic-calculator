@@ -138,7 +138,7 @@ const unknownLabel = computed(() => t.unknownSides[unknownSide.value as UnknownS
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius);
   background: var(--color-card);
-  box-shadow: 0 10px 30px rgba(8, 15, 30, 0.35);
+  box-shadow: var(--shadow-card);
 }
 
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -204,8 +204,8 @@ h2 {
 }
 
 .reset {
-  flex: 0 0 auto;
-  padding: 0.75rem 1.25rem;
+  flex: 1;
+  padding: 0.75rem 1rem;
   border: none;
   border-radius: var(--radius-sm);
   background: rgba(148, 163, 184, 0.15);
@@ -224,8 +224,8 @@ h2 {
   margin-top: 1.75rem;
   padding: 1.25rem;
   border-radius: var(--radius-sm);
-  background: rgba(45, 212, 191, 0.1);
-  border: 1px solid rgba(45, 212, 191, 0.3);
+  background: var(--slate-200);
+  border: 1px solid var(--slate-200);
 }
 
 .result h3 {
@@ -239,7 +239,7 @@ h2 {
   gap: 1rem;
   padding-bottom: 0.75rem;
   margin-bottom: 0.75rem;
-  border-bottom: 1px dashed rgba(45, 212, 191, 0.25);
+  border-bottom: 1px dashed var(--slate-300);
 }
 
 .result__main strong {

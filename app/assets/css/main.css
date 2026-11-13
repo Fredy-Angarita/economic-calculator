@@ -1,54 +1,59 @@
-/* Estilos globales y sistema de diseño de la aplicación. */
+/* Estilos globales y sistema de diseño.
+   Paleta Slate (Tailwind) en modo claro: fondo slate-100, tarjetas claras,
+   texto slate oscuro. Las variables --color-* mapean a la escala Slate para
+   que los componentes de cálculo (que las usan) queden coherentes con PrimeVue. */
 
 :root {
-  /* Capas (de más oscuro a más claro) */
-  --color-sidebar-bg: #0a1020;
-  --color-app-bg: #0f172a;
-  --color-card: #1a2438;
-  --color-card-border: rgba(148, 163, 184, 0.14);
+  /* Escala Slate */
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --slate-950: #020617;
 
-  /* Versiones translúcidas para efecto glass (blur de fondo) */
-  --color-sidebar-glass: rgba(10, 16, 32, 0.6);
-  --color-card-glass: rgba(26, 36, 56, 0.55);
-  --blur-glass: 14px;
+  /* Fondo general (slate-200) y cartas más claras (slate-100) — intercambiados */
+  --color-app-bg: var(--slate-200);
+  --color-card: var(--slate-100);
+  --color-card-glass: rgba(241, 245, 249, 0.85);
+  --blur-glass: 10px;
+  --color-card-border: var(--slate-300);
 
-  /* Inputs: más oscuros que la tarjeta */
-  --color-input-bg: #0f172a;
-  --color-input-border: rgba(148, 163, 184, 0.22);
-  --color-input-focus: rgba(59, 130, 246, 0.35);
+  /* Inputs */
+  --color-input-bg: #ffffff;
+  --color-input-border: var(--slate-300);
+  --color-input-focus: rgba(100, 116, 139, 0.3);
 
-  /* Sidebar */
-  --color-sidebar-border: rgba(148, 163, 184, 0.1);
-  --color-sidebar-label: #64748b;
-  --color-sidebar-item: #94a3b8;
-  --color-sidebar-item-hover-bg: rgba(148, 163, 184, 0.08);
-  --color-sidebar-item-active-bg: rgba(59, 130, 246, 0.16);
-  --color-sidebar-item-active-text: #93c5fd;
+  /* Acentos (slate oscuro para botones) */
+  --color-primary: var(--slate-900);
+  --color-primary-hover: var(--slate-700);
+  --color-accent: var(--slate-900); /* valores calculados, en oscuro sobre claro */
 
-  /* Acentos */
-  --color-primary: #3b82f6;
-  --color-primary-hover: #2563eb;
-  --color-accent: #2dd4bf; /* para resultados / valores calculados */
+  /* Texto sobre fondo claro.
+     Nota: "invert" conserva su nombre histórico pero ahora es texto OSCURO,
+     porque las tarjetas pasaron de oscuras a claras. */
+  --color-text-invert: var(--slate-900);
+  --color-text-soft: var(--slate-600);
+  --color-text-muted: var(--slate-500);
 
-  /* Texto */
-  --color-text-invert: #f1f5f9;
-  --color-text-soft: #cbd5e1;
-  --color-text-muted: #94a3b8;
-
-  /* Estado de error */
   --color-danger: #ef4444;
-  --color-danger-text: #fca5a5;
+  --color-danger-text: #b91c1c;
 
   --radius: 12px;
   --radius-sm: 8px;
-  --shadow-card: 0 10px 30px rgba(2, 6, 23, 0.45);
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.1), 0 1px 2px rgba(15, 23, 42, 0.06);
   --sidebar-width: 260px;
 
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
 }
 
-/* Reset base: elimina los márgenes por defecto del navegador. */
+/* Reset base */
 *,
 *::before,
 *::after {
@@ -64,10 +69,8 @@ body {
 body {
   min-height: 100vh;
   font-family: var(--font-sans);
-  color: var(--color-text-invert);
-  background:
-    radial-gradient(900px 500px at 50% -10%, rgba(59, 130, 246, 0.14), transparent 70%),
-    var(--color-app-bg);
+  color: var(--slate-900);
+  background: var(--color-app-bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useField } from 'vee-validate'
 
 const props = withDefaults(
@@ -7,19 +8,31 @@ const props = withDefaults(
     name: string
     label: string
     placeholder?: string
+    /** 'number' usa InputNumber; cualquier otro usa InputText. */
     type?: string
-    /** step para inputs numéricos. */
-    step?: string
     /** Oculta visualmente el label (se mantiene para accesibilidad). */
     hideLabel?: boolean
+    /** Decimales máximos para InputNumber. */
+    maxFractionDigits?: number
+    /** Formatea como moneda (modo currency de PrimeVue). */
+    money?: boolean
+    /** Locale para separadores (coma decimal con es-CO). */
+    locale?: string
+    /** Código ISO de moneda cuando money=true. */
+    currency?: string
   }>(),
   {
     placeholder: '',
     type: 'text',
-    step: 'any',
     hideLabel: false,
+    maxFractionDigits: 6,
+    money: false,
+    locale: 'es-CO',
+    currency: 'COP',
   }
 )
+
+const isNumber = computed(() => props.type === 'number' || props.money)
 
 // useField conecta este input con el useForm del componente padre.
 const { value, errorMessage, handleBlur, handleChange } = useField<string | number | null>(
@@ -30,21 +43,37 @@ const { value, errorMessage, handleBlur, handleChange } = useField<string | numb
 <template>
   <div class="field" :class="{ 'field--error': errorMessage }">
     <label :for="name" :class="{ 'sr-only': hideLabel }">{{ label }}</label>
-    <input
-      :id="name"
-      :name="name"
-      :type="type"
-      :step="type === 'number' ? step : undefined"
+
+    <InputNumber
+      v-if="isNumber"
+      :input-id="name"
+      :model-value="(value as number | null) ?? null"
       :placeholder="placeholder"
-      :value="value"
-      :aria-invalid="!!errorMessage"
-      :aria-describedby="errorMessage ? `${name}-error` : undefined"
-      @input="handleChange"
+      :locale="locale"
+      :mode="money ? 'currency' : 'decimal'"
+      :currency="money ? currency : undefined"
+      :max-fraction-digits="money ? 2 : maxFractionDigits"
+      :min-fraction-digits="0"
+      :invalid="!!errorMessage"
+      :use-grouping="money"
+      fluid
+      @update:model-value="handleChange"
       @blur="handleBlur"
     />
-    <p v-if="errorMessage" :id="`${name}-error`" class="field__error" role="alert">
+    <InputText
+      v-else
+      :id="name"
+      :model-value="(value as string | null) ?? ''"
+      :placeholder="placeholder"
+      :invalid="!!errorMessage"
+      fluid
+      @update:model-value="handleChange"
+      @blur="handleBlur"
+    />
+
+    <small v-if="errorMessage" :id="`${name}-error`" class="field__error" role="alert">
       {{ errorMessage }}
-    </p>
+    </small>
   </div>
 </template>
 
@@ -59,7 +88,7 @@ const { value, errorMessage, handleBlur, handleChange } = useField<string | numb
 label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--color-text-soft);
+  color: var(--p-text-color);
 }
 
 .sr-only {
@@ -74,37 +103,8 @@ label {
   border: 0;
 }
 
-input {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--color-input-border);
-  border-radius: var(--radius-sm);
-  font-size: 1rem;
-  background: var(--color-input-bg);
-  color: var(--color-text-invert);
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-
-input::placeholder {
-  color: var(--color-text-muted);
-}
-
-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-input-focus);
-}
-
-.field--error input {
-  border-color: var(--color-danger);
-}
-
-.field--error input:focus {
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
-}
-
 .field__error {
-  margin: 0;
+  color: var(--p-red-500, #ef4444);
   font-size: 0.8rem;
-  color: var(--color-danger-text);
 }
 </style>

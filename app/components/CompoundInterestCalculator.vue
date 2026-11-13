@@ -64,6 +64,7 @@ defineExpose({ values })
         v-if="showField('presentValue')"
         name="presentValue"
         type="number"
+        money
         :label="t.fields.presentValue.label"
         :placeholder="t.fields.presentValue.placeholder"
       />
@@ -71,6 +72,7 @@ defineExpose({ values })
         v-if="showField('futureValue')"
         name="futureValue"
         type="number"
+        money
         :label="t.fields.futureValue.label"
         :placeholder="t.fields.futureValue.placeholder"
       />
@@ -132,7 +134,7 @@ defineExpose({ values })
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius);
   background: var(--color-card);
-  box-shadow: 0 10px 30px rgba(8, 15, 30, 0.35);
+  box-shadow: var(--shadow-card);
 }
 
 /* Efecto glass: solo cuando el navegador soporta backdrop-filter. */
@@ -197,8 +199,8 @@ button.secondary:hover {
   margin-top: 1.75rem;
   padding: 1.25rem;
   border-radius: var(--radius-sm);
-  background: rgba(59, 130, 246, 0.12);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: var(--slate-200);
+  border: 1px solid var(--slate-200);
 }
 
 .result h3 {

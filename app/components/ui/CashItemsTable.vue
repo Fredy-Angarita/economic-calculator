@@ -1,21 +1,22 @@
 <script setup lang="ts">
 // Lista de movimientos (valor + periodo) con captura mediante DOS inputs
-// y un botón "Agregar". La tabla únicamente MUESTRA lo agregado y permite
-// quitar filas. Se conecta al formulario de vee-validate del padre por `name`.
+// (InputNumber de PrimeVue) y un botón "Agregar". La tabla (DataTable de
+// PrimeVue) únicamente MUESTRA lo agregado y permite quitar filas.
+// Se conecta al formulario de vee-validate del padre por `name`.
 
 import { ref } from 'vue'
 import { useFieldArray } from 'vee-validate'
-import { formatNumber } from '~/utils/formatNumber'
+import { formatMoney } from '~/utils/formatNumber'
 
 const props = defineProps<{
   /** Título de la sección (ej: "Deudas"). */
   title: string
   /** Nombre del array en el formulario (ej: "debts"). */
   name: string
-  /** Encabezado/label de la columna de valor. */
+  /** Label de la columna/campo de valor. */
   valueLabel: string
   valuePlaceholder?: string
-  /** Encabezado/label de la columna de periodo. */
+  /** Label de la columna/campo de periodo. */
   periodLabel: string
   periodPlaceholder?: string
   /** Texto del botón de agregar. */
@@ -44,7 +45,6 @@ function add() {
   const value = Number(draftValue.value)
   const period = Number(draftPeriod.value)
 
-  // Validación mínima: valor > 0 y periodo >= 0.
   if (
     draftValue.value === null ||
     draftPeriod.value === null ||
@@ -62,6 +62,16 @@ function add() {
   draftPeriod.value = null
   error.value = false
 }
+
+// Filas para el DataTable (desempaqueta el value del FieldEntry).
+function rows() {
+  return fields.value.map((f, index) => ({
+    index,
+    key: f.key,
+    value: f.value.value,
+    period: f.value.period,
+  }))
+}
 </script>
 
 <template>
@@ -72,64 +82,75 @@ function add() {
     <div class="items__form">
       <div class="items__field">
         <label :for="`${name}-value`">{{ valueLabel }}</label>
-        <input
-          :id="`${name}-value`"
-          v-model.number="draftValue"
-          type="number"
-          step="any"
+        <InputNumber
+          :input-id="`${name}-value`"
+          v-model="draftValue"
           :placeholder="valuePlaceholder"
+          locale="es-CO"
+          mode="currency"
+          currency="COP"
+          :max-fraction-digits="2"
+          :min-fraction-digits="0"
+          fluid
           @keydown.enter.prevent="add"
         />
       </div>
       <div class="items__field">
         <label :for="`${name}-period`">{{ periodLabel }}</label>
-        <input
-          :id="`${name}-period`"
-          v-model.number="draftPeriod"
-          type="number"
-          step="any"
+        <InputNumber
+          :input-id="`${name}-period`"
+          v-model="draftPeriod"
           :placeholder="periodPlaceholder"
+          locale="es-CO"
+          :max-fraction-digits="6"
+          :min-fraction-digits="0"
+          :use-grouping="false"
+          fluid
           @keydown.enter.prevent="add"
         />
       </div>
-      <button type="button" class="items__add" @click="add">+ {{ addLabel }}</button>
+      <Button
+        type="button"
+        class="items__add"
+        icon="pi pi-plus"
+        :label="addLabel"
+        severity="secondary"
+        @click="add"
+      />
     </div>
 
-    <p v-if="hint" class="items__hint" :class="{ 'items__hint--error': error }">
+    <small v-if="hint" class="items__hint" :class="{ 'items__hint--error': error }">
       {{ hint }}
-    </p>
+    </small>
 
     <!-- Tabla de solo visualización -->
-    <table class="items__table">
-      <thead>
-        <tr>
-          <th class="items__num">#</th>
-          <th>{{ valueLabel }}</th>
-          <th>{{ periodLabel }}</th>
-          <th class="items__actions-col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-if="fields.length === 0" class="items__empty">
-          <td colspan="4">{{ emptyLabel ?? '—' }}</td>
-        </tr>
-        <tr v-for="(field, idx) in fields" :key="field.key">
-          <td class="items__num">{{ idx + 1 }}</td>
-          <td>{{ formatNumber(field.value.value, 2) }}</td>
-          <td>{{ field.value.period }}</td>
-          <td class="items__actions-col">
-            <button
-              type="button"
-              class="items__remove"
-              :aria-label="removeLabel"
-              @click="remove(idx)"
-            >
-              ✕
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <DataTable :value="rows()" size="small" class="items__table" data-key="key">
+      <template #empty>
+        <span class="items__empty">{{ emptyLabel ?? '—' }}</span>
+      </template>
+
+      <Column header="#" class="items__num">
+        <template #body="{ index }">{{ index + 1 }}</template>
+      </Column>
+      <Column :header="valueLabel">
+        <template #body="{ data }">{{ formatMoney(data.value) }}</template>
+      </Column>
+      <Column :header="periodLabel" field="period" />
+      <Column class="items__actions-col">
+        <template #body="{ data }">
+          <Button
+            type="button"
+            icon="pi pi-times"
+            severity="danger"
+            text
+            rounded
+            size="small"
+            :aria-label="removeLabel"
+            @click="remove(data.index)"
+          />
+        </template>
+      </Column>
+    </DataTable>
   </fieldset>
 </template>
 
@@ -137,8 +158,8 @@ function add() {
 .items {
   margin: 0 0 1.25rem;
   padding: 1rem;
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--p-content-border-color);
+  border-radius: var(--p-content-border-radius, 8px);
 }
 
 .items legend {
@@ -147,7 +168,7 @@ function add() {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-text-muted);
+  color: var(--p-text-muted-color);
 }
 
 .items__form {
@@ -168,104 +189,39 @@ function add() {
 .items__field label {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-text-soft);
-}
-
-.items__field input {
-  padding: 0.55rem 0.7rem;
-  border: 1px solid var(--color-input-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-input-bg);
-  color: var(--color-text-invert);
-  font-size: 1rem;
-}
-
-.items__field input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-input-focus);
+  color: var(--p-text-color);
 }
 
 .items__add {
   flex: 0 0 auto;
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: var(--radius-sm);
-  background: var(--color-primary);
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.items__add:hover {
-  background: var(--color-primary-hover);
 }
 
 .items__hint {
+  display: block;
   margin: 0.5rem 0 0;
   font-size: 0.78rem;
-  color: var(--color-text-muted);
+  color: var(--p-text-muted-color);
 }
 
 .items__hint--error {
-  color: #fca5a5;
+  color: var(--p-red-500, #ef4444);
 }
 
 .items__table {
-  width: 100%;
   margin-top: 0.9rem;
-  border-collapse: collapse;
-  font-size: 0.9rem;
 }
 
-.items__table th {
-  text-align: left;
-  padding: 0.4rem 0.5rem;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-text-muted);
-  border-bottom: 1px solid var(--color-card-border);
-}
-
-.items__table td {
-  padding: 0.45rem 0.5rem;
-  color: var(--color-text-soft);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-  font-variant-numeric: tabular-nums;
-}
-
-.items__num {
-  width: 2rem;
-  color: var(--color-text-muted);
-}
-
-.items__actions-col {
-  width: 2.4rem;
-  text-align: right;
-}
-
-.items__empty td {
-  text-align: center;
-  color: var(--color-text-muted);
+.items__empty {
+  color: var(--p-text-muted-color);
   font-style: italic;
-  padding: 0.75rem;
 }
 
-.items__remove {
-  width: 1.9rem;
-  height: 1.9rem;
-  border: 1px solid var(--color-input-border);
-  border-radius: var(--radius-sm);
-  background: rgba(239, 68, 68, 0.12);
-  color: #fca5a5;
-  cursor: pointer;
-  font-size: 0.8rem;
+:deep(.items__num) {
+  width: 3rem;
 }
 
-.items__remove:hover {
-  background: rgba(239, 68, 68, 0.22);
+:deep(.items__actions-col) {
+  width: 3.5rem;
+  text-align: right;
 }
 </style>

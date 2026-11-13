@@ -210,8 +210,8 @@ button:hover {
   margin-top: 1.25rem;
   padding: 1rem 1.25rem;
   border-radius: var(--radius-sm);
-  background: rgba(45, 212, 191, 0.1);
-  border: 1px solid rgba(45, 212, 191, 0.3);
+  background: var(--slate-200);
+  border: 1px solid var(--slate-200);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -238,7 +238,7 @@ button:hover {
   justify-content: space-between;
   gap: 1rem;
   padding-top: 0.5rem;
-  border-top: 1px dashed rgba(45, 212, 191, 0.25);
+  border-top: 1px dashed var(--slate-300);
 }
 
 .converter__result-row strong {
@@ -341,7 +341,7 @@ button:hover {
 .converter--banner .converter__result-row {
   padding-top: 0;
   border-top: none;
-  border-left: 1px dashed rgba(45, 212, 191, 0.25);
+  border-left: 1px dashed var(--slate-300);
   padding-left: 1rem;
 }
 

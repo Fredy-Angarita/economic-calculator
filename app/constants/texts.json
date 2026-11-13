@@ -20,7 +20,7 @@
     "subtitle": "Convierte una tasa de origen a destino antes de calcular.",
     "from": "Tasa de origen",
     "to": "Tasa de destino",
-    "valueLabel": "Valor de la tasa (%) — usa punto para decimales",
+    "valueLabel": "Valor de la tasa (%) — usa coma para decimales",
     "valuePlaceholder": "Ej: 24",
     "typeLabel": "Tipo",
     "periodicityLabel": "Periodicidad",
@@ -60,7 +60,7 @@
         "placeholder": "Ej: 1500000"
       },
       "ratePercent": {
-        "label": "Tasa efectiva por periodo (%) — usa punto para decimales",
+        "label": "Tasa efectiva por periodo (%) — usa coma para decimales",
         "placeholder": "Ej: 2 (= 2% por periodo)"
       },
       "periods": {
@@ -80,7 +80,7 @@
     "title": "Ecuaciones de valor",
     "subtitle": "Iguala deudas y pagos en la fecha focal (el periodo de la incógnita).",
     "setup": "Datos generales",
-    "rateLabel": "Tasa efectiva por periodo (%) — usa punto para decimales",
+    "rateLabel": "Tasa efectiva por periodo (%) — usa coma para decimales",
     "ratePlaceholder": "Ej: 3",
     "unknownLabel": "¿Qué deseas calcular?",
     "focalNote": "La fecha focal es el periodo de la incógnita.",

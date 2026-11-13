@@ -16,11 +16,13 @@ const model = defineModel<T>({ required: true })
 <template>
   <div class="field">
     <label>{{ label }}</label>
-    <select v-model="model">
-      <option v-for="opt in options" :key="opt.value" :value="opt.value">
-        {{ opt.label }}
-      </option>
-    </select>
+    <Select
+      v-model="model"
+      :options="options"
+      option-label="label"
+      option-value="value"
+      fluid
+    />
   </div>
 </template>
 
@@ -35,28 +37,6 @@ const model = defineModel<T>({ required: true })
 label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--color-text-soft);
-}
-
-select {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--color-input-border);
-  border-radius: var(--radius-sm);
-  font-size: 1rem;
-  background: var(--color-input-bg);
-  color: var(--color-text-invert);
-  cursor: pointer;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-
-select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-input-focus);
-}
-
-select option {
-  background: var(--color-app-bg);
-  color: var(--color-text-invert);
+  color: var(--p-text-color);
 }
 </style>
