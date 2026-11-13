@@ -1,0 +1,63 @@
+{
+  "app": {
+    "title": "Calculadora financiera"
+  },
+  "nav": {
+    "compoundInterest": "Interés compuesto",
+    "rateConversion": "Cambio de tasas",
+    "valueEquations": "Ecuaciones de valor",
+    "annuities": "Anualidades",
+    "amortization": "Amortización"
+  },
+  "common": {
+    "calculate": "Calcular",
+    "reset": "Limpiar",
+    "result": "Resultado",
+    "comingSoon": "Módulo en construcción"
+  },
+  "compoundInterest": {
+    "title": "Interés compuesto",
+    "formula": "VF = VP · (1 + i)^n",
+    "targetQuestion": "¿Qué deseas calcular?",
+    "targets": {
+      "futureValue": "Valor futuro (VF)",
+      "presentValue": "Valor presente (VP)",
+      "rate": "Tasa de interés",
+      "periods": "Número de periodos"
+    },
+    "fields": {
+      "presentValue": {
+        "label": "Valor presente (VP)",
+        "placeholder": "Ej: 1000000"
+      },
+      "futureValue": {
+        "label": "Valor futuro (VF)",
+        "placeholder": "Ej: 1500000"
+      },
+      "ratePercent": {
+        "label": "Tasa efectiva por periodo (%)",
+        "placeholder": "Ej: 2 (= 2% por periodo)"
+      },
+      "periods": {
+        "label": "Número de periodos (n)",
+        "placeholder": "Ej: 12"
+      }
+    },
+    "results": {
+      "presentValue": "Valor presente (VP)",
+      "futureValue": "Valor futuro (VF)",
+      "ratePercent": "Tasa efectiva por periodo",
+      "periods": "Número de periodos (n)",
+      "interest": "Interés total"
+    }
+  },
+  "validation": {
+    "required": "Este campo es obligatorio.",
+    "number": "Debe ser un número válido.",
+    "positive": "Debe ser un número mayor que 0.",
+    "nonNegative": "No puede ser negativo.",
+    "presentValuePositive": "El valor presente debe ser mayor que 0.",
+    "rateRange": "La tasa debe ser mayor que -100%.",
+    "rateNonZero": "La tasa no puede ser 0 para calcular periodos."
+  }
+}
