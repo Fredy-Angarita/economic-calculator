@@ -10,11 +10,14 @@ const props = withDefaults(
     type?: string
     /** step para inputs numéricos. */
     step?: string
+    /** Oculta visualmente el label (se mantiene para accesibilidad). */
+    hideLabel?: boolean
   }>(),
   {
     placeholder: '',
     type: 'text',
     step: 'any',
+    hideLabel: false,
   }
 )
 
@@ -26,7 +29,7 @@ const { value, errorMessage, handleBlur, handleChange } = useField<string | numb
 
 <template>
   <div class="field" :class="{ 'field--error': errorMessage }">
-    <label :for="name">{{ label }}</label>
+    <label :for="name" :class="{ 'sr-only': hideLabel }">{{ label }}</label>
     <input
       :id="name"
       :name="name"
@@ -57,6 +60,18 @@ label {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text-soft);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 input {

@@ -76,6 +76,38 @@
       "interest": "Interés total"
     }
   },
+  "valueEquation": {
+    "title": "Ecuaciones de valor",
+    "subtitle": "Iguala deudas y pagos en la fecha focal (el periodo de la incógnita).",
+    "setup": "Datos generales",
+    "rateLabel": "Tasa efectiva por periodo (%) — usa punto para decimales",
+    "ratePlaceholder": "Ej: 3",
+    "unknownLabel": "¿Qué deseas calcular?",
+    "focalNote": "La fecha focal es el periodo de la incógnita.",
+    "focalLabel": "Periodo de la incógnita (fecha focal)",
+    "focalPlaceholder": "Ej: 6",
+    "unknownSides": {
+      "payment": "Un pago",
+      "debt": "Una deuda"
+    },
+    "debts": "Deudas",
+    "payments": "Pagos",
+    "addDebt": "Agregar deuda",
+    "addPayment": "Agregar pago",
+    "itemValue": "Valor",
+    "itemValuePlaceholder": "Ej: 1000",
+    "itemPeriod": "Periodo",
+    "itemPeriodPlaceholder": "Ej: 0",
+    "itemHint": "Escribe el valor y el periodo, luego pulsa «Agregar» (o Enter). Se añadirá a la tabla.",
+    "empty": "Aún no has agregado nada.",
+    "remove": "Quitar",
+    "calculate": "Calcular ecuación",
+    "results": {
+      "unknown": "Valor de la incógnita",
+      "debtsAtFocal": "Deudas en la fecha focal",
+      "paymentsAtFocal": "Pagos en la fecha focal"
+    }
+  },
   "validation": {
     "required": "Este campo es obligatorio.",
     "number": "Debe ser un número válido.",

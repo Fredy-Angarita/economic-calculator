@@ -127,8 +127,7 @@ defineExpose({ values })
 
 <style scoped>
 .card {
-  max-width: 480px;
-  margin: 0 auto;
+  width: 100%;
   padding: 1.75rem;
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius);

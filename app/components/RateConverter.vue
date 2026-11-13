@@ -15,6 +15,14 @@ import { formatPercent, formatNumber } from '~/utils/formatNumber'
 
 const t = RATE_CONVERSION_TEXTS
 
+const props = withDefaults(
+  defineProps<{
+    /** 'card' (por defecto) o 'banner' compacto en una fila. */
+    variant?: 'card' | 'banner'
+  }>(),
+  { variant: 'card' }
+)
+
 // Permite que un módulo padre reciba la tasa convertida (en %) al calcularla.
 const emit = defineEmits<{ convert: [valuePercent: number] }>()
 
@@ -71,13 +79,15 @@ const resultDecimalText = computed(() =>
 </script>
 
 <template>
-  <section class="converter">
-    <header class="converter__header">
+  <section class="converter" :class="`converter--${props.variant}`">
+    <header v-if="props.variant === 'card'" class="converter__header">
       <h3>{{ t.title }}</h3>
       <p>{{ t.subtitle }}</p>
     </header>
 
-    <form novalidate @submit="onSubmit">
+    <p v-if="props.variant === 'banner'" class="converter__note">{{ t.subtitle }}</p>
+
+    <form novalidate class="converter__form" @submit="onSubmit">
       <UiBaseInput
         name="valuePercent"
         type="number"
@@ -242,6 +252,109 @@ button:hover {
 @media (max-width: 520px) {
   .converter__grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Variante banner: compacta, en una fila ---- */
+.converter--banner {
+  max-width: none;
+  margin: 0 0 1.5rem;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.converter--banner .converter__note {
+  flex: 1 1 100%;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.converter--banner .converter__form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* El input de valor ocupa toda la fila. */
+.converter--banner .converter__form > :deep(.field) {
+  flex: 1 1 100%;
+  margin-bottom: 0;
+}
+
+/* Las dos cajas origen/destino se reparten el espacio restante. */
+.converter--banner .converter__grid {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.converter--banner .converter__group {
+  flex: 1 1 220px;
+  min-width: 0;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem 0.6rem;
+}
+
+/* Selects en fila dentro de cada caja, sin margen inferior. */
+.converter--banner .converter__group :deep(.field) {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+/* Labels más pequeñas para ahorrar altura. */
+.converter--banner :deep(.field label) {
+  font-size: 0.72rem;
+}
+
+.converter--banner .converter__group legend {
+  font-size: 0.68rem;
+}
+
+.converter--banner button {
+  width: 100%;
+  flex: 1 1 100%;
+  margin-top: 0;
+  padding: 0.6rem 1.25rem;
+}
+
+/* Resultado inline a la derecha del banner. */
+.converter--banner .converter__result {
+  flex: 1 1 100%;
+  margin-top: 0;
+  padding: 0.6rem 0.9rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.converter--banner .converter__result-row {
+  padding-top: 0;
+  border-top: none;
+  border-left: 1px dashed rgba(45, 212, 191, 0.25);
+  padding-left: 1rem;
+}
+
+/* Pantallas pequeñas: cada caja y su contenido se apilan. */
+@media (max-width: 560px) {
+  .converter--banner .converter__group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .converter--banner .converter__result-row {
+    border-left: none;
+    padding-left: 0;
   }
 }
 </style>
