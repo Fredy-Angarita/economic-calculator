@@ -1,0 +1,97 @@
+/* Estilos globales y sistema de diseño.
+   Paleta Slate (Tailwind) en modo claro: fondo slate-100, tarjetas claras,
+   texto slate oscuro. Las variables --color-* mapean a la escala Slate para
+   que los componentes de cálculo (que las usan) queden coherentes con PrimeVue. */
+
+:root {
+  /* Escala Slate */
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --slate-950: #020617;
+
+  /* Fondo general (slate-200) y cartas más claras (slate-100) — intercambiados */
+  --color-app-bg: var(--slate-200);
+  --color-card: var(--slate-100);
+  --color-card-glass: rgba(241, 245, 249, 0.85);
+  --blur-glass: 10px;
+  --color-card-border: var(--slate-300);
+
+  /* Inputs */
+  --color-input-bg: #ffffff;
+  --color-input-border: var(--slate-300);
+  --color-input-focus: rgba(100, 116, 139, 0.3);
+
+  /* Acentos (slate oscuro para botones) */
+  --color-primary: var(--slate-900);
+  --color-primary-hover: var(--slate-700);
+  --color-accent: var(--slate-900); /* valores calculados, en oscuro sobre claro */
+
+  /* Texto sobre fondo claro.
+     Nota: "invert" conserva su nombre histórico pero ahora es texto OSCURO,
+     porque las tarjetas pasaron de oscuras a claras. */
+  --color-text-invert: var(--slate-900);
+  --color-text-soft: var(--slate-600);
+  --color-text-muted: var(--slate-500);
+
+  --color-danger: #ef4444;
+  --color-danger-text: #b91c1c;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.1), 0 1px 2px rgba(15, 23, 42, 0.06);
+  --sidebar-width: 260px;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
+}
+
+/* Reset base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--slate-900);
+  background: var(--color-app-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#__nuxt {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}

@@ -1,0 +1,225 @@
+{
+  "app": {
+    "title": "Calculadora financiera"
+  },
+  "group":{
+    "1": "Cristian Albeiro Angarita Velasco",
+    "2": "Erick Enrique Chaparro Martinez",
+    "3": "Fredy Stiven Angarita Velasco"
+  },
+  "nav": {
+    "compoundInterest": "Interés compuesto",
+    "rateConversion": "Cambio de tasas",
+    "valueEquations": "Ecuaciones de valor",
+    "annuities": "Anualidades",
+    "amortization": "Amortización"
+  },
+  "common": {
+    "calculate": "Calcular",
+    "reset": "Limpiar",
+    "result": "Resultado",
+    "comingSoon": "Módulo en construcción"
+  },
+  "rateConversion": {
+    "title": "Cambio de tasas",
+    "subtitle": "Convierte una tasa de origen a destino antes de calcular.",
+    "from": "Tasa de origen",
+    "to": "Tasa de destino",
+    "valueLabel": "Valor de la tasa (%) — usa coma para decimales",
+    "valuePlaceholder": "Ej: 24",
+    "typeLabel": "Tipo",
+    "periodicityLabel": "Periodicidad",
+    "convert": "Convertir",
+    "resultLabel": "Tasa convertida",
+    "resultDecimalLabel": "Tasa en decimal",
+    "types": {
+      "effective": "Efectiva",
+      "nominal": "Nominal"
+    },
+    "periodicities": {
+      "annual": "Anual",
+      "semiannual": "Semestral",
+      "quarterly4": "Cuatrimestral",
+      "quarterly": "Trimestral",
+      "bimonthly": "Bimestral",
+      "monthly": "Mensual"
+    }
+  },
+  "compoundInterest": {
+    "title": "Interés compuesto",
+    "formula": "VF = VP · (1 + i)^n",
+    "targetQuestion": "¿Qué deseas calcular?",
+    "targets": {
+      "futureValue": "Valor futuro (VF)",
+      "presentValue": "Valor presente (VP)",
+      "rate": "Tasa de interés",
+      "periods": "Número de periodos"
+    },
+    "fields": {
+      "presentValue": {
+        "label": "Valor presente (VP)",
+        "placeholder": "Ej: 1000000"
+      },
+      "futureValue": {
+        "label": "Valor futuro (VF)",
+        "placeholder": "Ej: 1500000"
+      },
+      "ratePercent": {
+        "label": "Tasa efectiva por periodo (%) — usa coma para decimales",
+        "placeholder": "Ej: 2 (= 2% por periodo)"
+      },
+      "periods": {
+        "label": "Número de periodos (n)",
+        "placeholder": "Ej: 12"
+      }
+    },
+    "results": {
+      "presentValue": "Valor presente (VP)",
+      "futureValue": "Valor futuro (VF)",
+      "ratePercent": "Tasa efectiva por periodo",
+      "periods": "Número de periodos (n)",
+      "interest": "Interés total"
+    }
+  },
+  "valueEquation": {
+    "title": "Ecuaciones de valor",
+    "subtitle": "Iguala deudas y pagos en la fecha focal (el periodo de la incógnita).",
+    "setup": "Datos generales",
+    "rateLabel": "Tasa efectiva por periodo (%) — usa coma para decimales",
+    "ratePlaceholder": "Ej: 3",
+    "unknownLabel": "¿Qué deseas calcular?",
+    "focalNote": "La fecha focal es el periodo de la incógnita.",
+    "focalLabel": "Periodo de la incógnita (fecha focal)",
+    "focalPlaceholder": "Ej: 6",
+    "unknownSides": {
+      "payment": "Un pago",
+      "debt": "Una deuda"
+    },
+    "debts": "Deudas",
+    "payments": "Pagos",
+    "addDebt": "Agregar deuda",
+    "addPayment": "Agregar pago",
+    "itemValue": "Valor",
+    "itemValuePlaceholder": "Ej: 1000",
+    "itemPeriod": "Periodo",
+    "itemPeriodPlaceholder": "Ej: 0",
+    "itemHint": "Escribe el valor y el periodo, luego pulsa «Agregar» (o Enter). Se añadirá a la tabla.",
+    "empty": "Aún no has agregado nada.",
+    "remove": "Quitar",
+    "calculate": "Calcular ecuación",
+    "results": {
+      "unknown": "Valor de la incógnita",
+      "debtsAtFocal": "Deudas en la fecha focal",
+      "paymentsAtFocal": "Pagos en la fecha focal"
+    }
+  },
+  "annuity": {
+    "title": "Anualidades",
+    "subtitle": "Serie uniforme de pagos. Elige el tipo y qué deseas calcular.",
+    "kindLabel": "Tipo de anualidad",
+    "targetLabel": "¿Qué deseas calcular?",
+    "kinds": {
+      "ordinary": "Vencida (pago al final)",
+      "due": "Anticipada (pago al inicio)",
+      "deferred": "Diferida (con periodo de gracia)"
+    },
+    "targets": {
+      "presentValue": "Valor presente (VP)",
+      "futureValue": "Valor futuro (VF)",
+      "payment": "Pago (A)"
+    },
+    "fields": {
+      "ratePercent": {
+        "label": "Tasa efectiva por periodo (%) — usa coma para decimales",
+        "placeholder": "Ej: 2"
+      },
+      "periods": {
+        "label": "Número de periodos (n)",
+        "placeholder": "Ej: 12"
+      },
+      "payment": {
+        "label": "Pago por periodo (A)",
+        "placeholder": "Ej: 1000"
+      },
+      "presentValue": {
+        "label": "Valor presente (VP)",
+        "placeholder": "Ej: 10000"
+      },
+      "futureValue": {
+        "label": "Valor futuro (VF)",
+        "placeholder": "Ej: 13000"
+      },
+      "deferralPeriods": {
+        "label": "Periodos de gracia (k)",
+        "placeholder": "Ej: 6 (periodos antes del primer pago)"
+      }
+    },
+    "paymentNote": "Para hallar el pago, ingresa el valor presente o el valor futuro.",
+    "results": {
+      "presentValue": "Valor presente (VP)",
+      "futureValue": "Valor futuro (VF)",
+      "payment": "Pago por periodo (A)",
+      "periods": "Número de pagos (n)",
+      "ratePerPayment": "Tasa efectiva por pago"
+    }
+  },
+  "amortization": {
+    "title": "Amortización",
+    "subtitle": "Calcula el plan de pagos de un préstamo. Puedes agregar abonos extra a capital y elegir si reducen la cuota o el plazo.",
+    "fields": {
+      "principal": {
+        "label": "Monto del préstamo",
+        "placeholder": "Ej: 1000000"
+      },
+      "ratePercent": {
+        "label": "Tasa efectiva por periodo (%) — usa coma para decimales",
+        "placeholder": "Ej: 2"
+      },
+      "periods": {
+        "label": "Número de periodos (n)",
+        "placeholder": "Ej: 12"
+      }
+    },
+    "extras": {
+      "title": "Abonos extraordinarios a capital",
+      "value": "Abono",
+      "valuePlaceholder": "Ej: 100000",
+      "period": "Periodo",
+      "periodPlaceholder": "Ej: 3",
+      "add": "Agregar abono",
+      "remove": "Quitar",
+      "hint": "Escribe el abono y el periodo, luego pulsa «Agregar» (o Enter). Reducirá la cuota desde ese periodo.",
+      "empty": "Sin abonos extraordinarios."
+    },
+    "calculate": "Generar tabla",
+    "modeLabel": "Efecto de los abonos",
+    "modes": {
+      "reducePayment": "Reducir la cuota",
+      "reduceTerm": "Reducir el plazo"
+    },
+    "summary": {
+      "initialPayment": "Cuota inicial",
+      "totalInterest": "Total intereses",
+      "totalExtra": "Total abonos extra",
+      "totalPaid": "Total pagado",
+      "periodsCount": "Número de periodos"
+    },
+    "table": {
+      "period": "Periodo",
+      "payment": "Cuota",
+      "interest": "Interés",
+      "principalPaid": "Abono a capital",
+      "extra": "Abono extra",
+      "balance": "Saldo"
+    }
+  },
+  "validation": {
+    "required": "Este campo es obligatorio.",
+    "number": "Debe ser un número válido.",
+    "positive": "Debe ser un número mayor que 0.",
+    "nonNegative": "No puede ser negativo.",
+    "presentValuePositive": "El valor presente debe ser mayor que 0.",
+    "rateRange": "La tasa debe ser mayor que -100%.",
+    "rateNonZero": "La tasa no puede ser 0 para calcular periodos."
+  }
+}
