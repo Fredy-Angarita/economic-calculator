@@ -68,9 +68,6 @@ export function useAnnuity() {
     if (i <= -1) throw new Error('La tasa debe ser mayor que -100%.')
     if (i === 0) throw new Error('La tasa no puede ser 0.')
 
-    // Ajuste de valor presente según el tipo.
-    //  - anticipada: × (1 + i)
-    //  - diferida:   × (1 + i)^(−k)
     let pvAdj = 1
     if (kind === 'due') {
       pvAdj = 1 + i

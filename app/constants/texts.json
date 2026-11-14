@@ -2,6 +2,11 @@
   "app": {
     "title": "Calculadora financiera"
   },
+  "group":{
+    "1": "Cristian Albeiro Angarita Velasco",
+    "2": "Erick Enrique Chaparro Martinez",
+    "3": "Fredy Stiven Angarita Velasco"
+  },
   "nav": {
     "compoundInterest": "Interés compuesto",
     "rateConversion": "Cambio de tasas",
@@ -156,6 +161,56 @@
       "payment": "Pago por periodo (A)",
       "periods": "Número de pagos (n)",
       "ratePerPayment": "Tasa efectiva por pago"
+    }
+  },
+  "amortization": {
+    "title": "Amortización",
+    "subtitle": "Calcula el plan de pagos de un préstamo. Puedes agregar abonos extra a capital y elegir si reducen la cuota o el plazo.",
+    "fields": {
+      "principal": {
+        "label": "Monto del préstamo",
+        "placeholder": "Ej: 1000000"
+      },
+      "ratePercent": {
+        "label": "Tasa efectiva por periodo (%) — usa coma para decimales",
+        "placeholder": "Ej: 2"
+      },
+      "periods": {
+        "label": "Número de periodos (n)",
+        "placeholder": "Ej: 12"
+      }
+    },
+    "extras": {
+      "title": "Abonos extraordinarios a capital",
+      "value": "Abono",
+      "valuePlaceholder": "Ej: 100000",
+      "period": "Periodo",
+      "periodPlaceholder": "Ej: 3",
+      "add": "Agregar abono",
+      "remove": "Quitar",
+      "hint": "Escribe el abono y el periodo, luego pulsa «Agregar» (o Enter). Reducirá la cuota desde ese periodo.",
+      "empty": "Sin abonos extraordinarios."
+    },
+    "calculate": "Generar tabla",
+    "modeLabel": "Efecto de los abonos",
+    "modes": {
+      "reducePayment": "Reducir la cuota",
+      "reduceTerm": "Reducir el plazo"
+    },
+    "summary": {
+      "initialPayment": "Cuota inicial",
+      "totalInterest": "Total intereses",
+      "totalExtra": "Total abonos extra",
+      "totalPaid": "Total pagado",
+      "periodsCount": "Número de periodos"
+    },
+    "table": {
+      "period": "Periodo",
+      "payment": "Cuota",
+      "interest": "Interés",
+      "principalPaid": "Abono a capital",
+      "extra": "Abono extra",
+      "balance": "Saldo"
     }
   },
   "validation": {

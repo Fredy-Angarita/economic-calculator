@@ -17,5 +17,5 @@ export const NAV_ITEMS: NavItem[] = [
   { label: NAV_TEXTS.compoundInterest, to: '/', icon: 'pi pi-chart-line' },
   { label: NAV_TEXTS.valueEquations, to: '/value-equations', icon: 'pi pi-sliders-h' },
   { label: NAV_TEXTS.annuities, to: '/annuities', icon: 'pi pi-calendar' },
-  { label: NAV_TEXTS.amortization, to: '/amortizacion', icon: 'pi pi-chart-bar', disabled: true },
+  { label: NAV_TEXTS.amortization, to: '/amortization', icon: 'pi pi-chart-bar' },
 ]

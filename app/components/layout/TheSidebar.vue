@@ -2,9 +2,10 @@
 import { computed } from 'vue'
 import type { MenuItem } from 'primevue/menuitem'
 import { NAV_ITEMS } from '~/constants/navigation'
-import { APP_TEXTS } from '~/constants/texts'
+import { APP_TEXTS, GROUP_TEXT } from '~/constants/texts'
 
-// Mapea los módulos a items del Menu de PrimeVue.
+const groupMembers = Object.values(GROUP_TEXT)
+
 const menuItems = computed<MenuItem[]>(() => [
   { label: 'Módulos', items: NAV_ITEMS.map(toMenuItem) },
 ])
@@ -27,7 +28,6 @@ function toMenuItem(item: (typeof NAV_ITEMS)[number]): MenuItem {
     </div>
 
     <Menu :model="menuItems" class="sidebar__menu">
-      <!-- Render de cada item con NuxtLink para navegación SPA. -->
       <template #item="{ item, props }">
         <NuxtLink
           v-if="item.route"
@@ -36,7 +36,7 @@ function toMenuItem(item: (typeof NAV_ITEMS)[number]): MenuItem {
           custom
         >
           <a
-            :href="href"
+            :href="href ?? ''"
             v-bind="props.action"
             :class="{ 'sidebar__item--active': isActive }"
             @click="navigate"
@@ -53,7 +53,12 @@ function toMenuItem(item: (typeof NAV_ITEMS)[number]): MenuItem {
       </template>
     </Menu>
 
-    <footer class="sidebar__footer" />
+    <footer class="sidebar__footer">
+      <p class="sidebar__footer-title">Integrantes</p>
+      <ul>
+        <li v-for="(member, idx) in groupMembers" :key="idx">{{ member }}</li>
+      </ul>
+    </footer>
   </aside>
 </template>
 
@@ -168,9 +173,32 @@ function toMenuItem(item: (typeof NAV_ITEMS)[number]): MenuItem {
 }
 
 .sidebar__footer {
-  min-height: 1.5rem;
+  margin-top: auto;
   padding-top: 1rem;
   border-top: 1px solid var(--p-slate-800);
+}
+
+.sidebar__footer-title {
+  margin: 0 0 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--p-slate-500);
+}
+
+.sidebar__footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar__footer li {
+  font-size: 0.72rem;
+  color: var(--p-slate-400);
 }
 
 @media (max-width: 768px) {

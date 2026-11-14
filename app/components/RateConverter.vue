@@ -17,18 +17,15 @@ const t = RATE_CONVERSION_TEXTS
 
 const props = withDefaults(
   defineProps<{
-    /** 'card' (por defecto) o 'banner' compacto en una fila. */
     variant?: 'card' | 'banner'
   }>(),
   { variant: 'card' }
 )
 
-// Permite que un módulo padre reciba la tasa convertida (en %) al calcularla.
 const emit = defineEmits<{ convert: [valuePercent: number] }>()
 
 const { convert } = useRateConversion()
 
-// Opciones para los selects, resueltas desde los textos.
 const typeOptions = (Object.keys(t.types) as RateType[]).map((value) => ({
   value,
   label: t.types[value],

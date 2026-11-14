@@ -1,21 +1,3 @@
-// Composable para ecuaciones de valor.
-//
-// Una ecuación de valor iguala el valor de las DEUDAS con el de los PAGOS,
-// llevando todos los montos a una misma FECHA FOCAL.
-//
-// Fecha focal (f): por convención de este módulo, es el periodo de la
-// incógnita (lo que se desea encontrar). Cada monto ubicado en el periodo t
-// se traslada a la focal con:
-//
-//     valor_en_focal = monto * (1 + i)^(f - t)
-//
-// Equilibrio:  Σ deudas(@f) = Σ pagos(@f)
-//
-// La incógnita es un monto (un pago o una deuda) ubicado EN la fecha focal.
-// Se despeja:
-//   - incógnita en pagos:  X = Σdeudas(@f) − Σotros_pagos(@f)
-//   - incógnita en deudas: X = Σpagos(@f)  − Σotras_deudas(@f)
-
 /** Qué lado contiene la incógnita a calcular. */
 export type UnknownSide = 'payment' | 'debt'
 
@@ -64,9 +46,7 @@ export function useValueEquation() {
     return items.reduce((acc, item) => acc + toFocal(item.value, item.period, focal, rate), 0)
   }
 
-  /**
-   * Resuelve la ecuación de valor y devuelve el valor de la incógnita.
-   */
+
   function solve(input: ValueEquationInput): ValueEquationResult {
     const { ratePercent, focalPeriod, unknownSide, debts, payments } = input
     const rate = ratePercent / 100
@@ -74,8 +54,6 @@ export function useValueEquation() {
     const debtsAtFocal = sumAtFocal(debts, focalPeriod, rate)
     const paymentsAtFocal = sumAtFocal(payments, focalPeriod, rate)
 
-    // La incógnita está en la fecha focal, así que su factor (1+i)^0 = 1.
-    // X = (suma del lado contrario) − (suma de los conocidos de su lado).
     const unknownValue =
       unknownSide === 'payment'
         ? debtsAtFocal - paymentsAtFocal
