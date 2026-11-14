@@ -108,6 +108,56 @@
       "paymentsAtFocal": "Pagos en la fecha focal"
     }
   },
+  "annuity": {
+    "title": "Anualidades",
+    "subtitle": "Serie uniforme de pagos. Elige el tipo y qué deseas calcular.",
+    "kindLabel": "Tipo de anualidad",
+    "targetLabel": "¿Qué deseas calcular?",
+    "kinds": {
+      "ordinary": "Vencida (pago al final)",
+      "due": "Anticipada (pago al inicio)",
+      "deferred": "Diferida (con periodo de gracia)"
+    },
+    "targets": {
+      "presentValue": "Valor presente (VP)",
+      "futureValue": "Valor futuro (VF)",
+      "payment": "Pago (A)"
+    },
+    "fields": {
+      "ratePercent": {
+        "label": "Tasa efectiva por periodo (%) — usa coma para decimales",
+        "placeholder": "Ej: 2"
+      },
+      "periods": {
+        "label": "Número de periodos (n)",
+        "placeholder": "Ej: 12"
+      },
+      "payment": {
+        "label": "Pago por periodo (A)",
+        "placeholder": "Ej: 1000"
+      },
+      "presentValue": {
+        "label": "Valor presente (VP)",
+        "placeholder": "Ej: 10000"
+      },
+      "futureValue": {
+        "label": "Valor futuro (VF)",
+        "placeholder": "Ej: 13000"
+      },
+      "deferralPeriods": {
+        "label": "Periodos de gracia (k)",
+        "placeholder": "Ej: 6 (periodos antes del primer pago)"
+      }
+    },
+    "paymentNote": "Para hallar el pago, ingresa el valor presente o el valor futuro.",
+    "results": {
+      "presentValue": "Valor presente (VP)",
+      "futureValue": "Valor futuro (VF)",
+      "payment": "Pago por periodo (A)",
+      "periods": "Número de pagos (n)",
+      "ratePerPayment": "Tasa efectiva por pago"
+    }
+  },
   "validation": {
     "required": "Este campo es obligatorio.",
     "number": "Debe ser un número válido.",
