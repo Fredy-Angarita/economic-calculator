@@ -6,9 +6,6 @@ useHead({ title: `${ANNUITY_TEXTS.title} · ${APP_TEXTS.title}` })
 
 <template>
   <main class="page">
-    <!-- Conversión de tasas compacta, en banner. -->
-    <RateConverter variant="banner" />
-
     <AnnuityCalculator />
   </main>
 </template>

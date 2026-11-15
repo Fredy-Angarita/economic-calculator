@@ -1,4 +1,34 @@
+import { PERIODICITIES, type Periodicity } from './useRateConversion'
+
 export type CompoundTarget = 'futureValue' | 'presentValue' | 'rate' | 'periods'
+
+/**
+ * Convierte n (en la periodicidad de los periodos) a periodos de la tasa.
+ * Ej: 3 años con tasa trimestral → 12. Solo acepta combinaciones enteras.
+ */
+export function toRatePeriods(
+  n: number,
+  periodsUnit: Periodicity,
+  ratePeriodicity: Periodicity
+): number {
+  const raw = (n * PERIODICITIES[ratePeriodicity]) / PERIODICITIES[periodsUnit]
+  const rounded = Math.round(raw)
+  if (Math.abs(raw - rounded) > 1e-9) {
+    throw new Error(
+      'Con estos datos el número de periodos no es entero en la periodicidad de la tasa. Ajusta los periodos o la periodicidad de la tasa.'
+    )
+  }
+  return rounded
+}
+
+/** Convierte periodos de la tasa a la periodicidad de los periodos elegida. */
+export function fromRatePeriods(
+  periods: number,
+  periodsUnit: Periodicity,
+  ratePeriodicity: Periodicity
+): number {
+  return (periods * PERIODICITIES[periodsUnit]) / PERIODICITIES[ratePeriodicity]
+}
 
 export interface CompoundInterestInput {
   /** Valor presente (VP). */

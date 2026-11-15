@@ -22,7 +22,11 @@ const props = withDefaults(
   { variant: 'card' }
 )
 
-const emit = defineEmits<{ convert: [valuePercent: number] }>()
+// Emite la tasa efectiva por periodo del destino (la que usan las calculadoras),
+// sin importar si el destino fue efectivo o nominal.
+const emit = defineEmits<{
+  convert: [result: { effectivePeriodPercent: number; toPeriodicity: Periodicity }]
+}>()
 
 const { convert } = useRateConversion()
 
@@ -63,7 +67,10 @@ const onSubmit = handleSubmit((values) => {
     toType: values.toType,
     toPeriodicity: values.toPeriodicity,
   })
-  emit('convert', result.value.valuePercent)
+  emit('convert', {
+    effectivePeriodPercent: result.value.effectivePeriodPercent,
+    toPeriodicity: values.toPeriodicity,
+  })
 })
 
 const resultText = computed(() =>
@@ -72,6 +79,10 @@ const resultText = computed(() =>
 
 const resultDecimalText = computed(() =>
   result.value ? formatNumber(result.value.value, 6) : null
+)
+
+const resultPeriodText = computed(() =>
+  result.value ? formatPercent(result.value.effectivePeriodPercent, 4) : null
 )
 </script>
 
@@ -105,7 +116,11 @@ const resultDecimalText = computed(() =>
 
         <fieldset class="converter__group">
           <legend>{{ t.to }}</legend>
-          <UiBaseSelect v-model="toType" :label="t.typeLabel" :options="typeOptions" />
+          <UiBaseSelect
+            v-model="toType"
+            :label="t.typeLabel"
+            :options="typeOptions"
+          />
           <UiBaseSelect
             v-model="toPeriodicity"
             :label="t.periodicityLabel"
@@ -125,6 +140,10 @@ const resultDecimalText = computed(() =>
       <div class="converter__result-row">
         <span>{{ t.resultDecimalLabel }}</span>
         <strong>{{ resultDecimalText }}</strong>
+      </div>
+      <div class="converter__result-row">
+        <span>{{ t.resultPeriodLabel }}</span>
+        <strong>{{ resultPeriodText }}</strong>
       </div>
     </div>
   </section>
