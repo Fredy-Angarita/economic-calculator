@@ -32,6 +32,20 @@
     "convert": "Convertir",
     "resultLabel": "Tasa convertida",
     "resultDecimalLabel": "Tasa en decimal",
+    "resultPeriodLabel": "Efectiva por periodo (se usa en las calculadoras)",
+    "sharedEffective": "Efectiva por periodo",
+    "activeTitle": "Tasa activa",
+    "activeNote": "Esta tasa es el valor inicial del campo de tasa en las calculadoras. Puedes editarla en cada una.",
+    "activeEmpty": "Aún no hay una tasa activa. Convierte una tasa para usarla en todas las calculadoras.",
+    "clear": "Quitar tasa",
+    "sharedNoticePrefix": "Tasa tomada de Cambio de tasas:",
+    "sharedChange": "Cambiar",
+    "modules": {
+      "compoundInterest": "Interés compuesto",
+      "valueEquations": "Ecuaciones de valor",
+      "annuities": "Anualidades",
+      "amortization": "Amortización"
+    },
     "types": {
       "effective": "Efectiva",
       "nominal": "Nominal"

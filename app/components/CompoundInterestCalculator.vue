@@ -10,6 +10,7 @@ import {
 import { compoundInterestSchema, type CompoundInterestModel } from '~/schemas/compoundInterest.schema'
 import { COMPOUND_INTEREST_TEXTS, COMMON_TEXTS } from '~/constants/texts'
 import { formatMoney, formatPercent, formatNumber } from '~/utils/formatNumber'
+import { useSharedRate } from '~/composables/useSharedRate'
 
 const t = COMPOUND_INTEREST_TEXTS
 const { solve } = useCompoundInterest()
@@ -24,13 +25,27 @@ const result = ref<CompoundInterestResult | null>(null)
 
 const validationSchema = computed(() => toTypedSchema(compoundInterestSchema(target.value)))
 
-const { handleSubmit, resetForm, values } = useForm<CompoundInterestModel>({ validationSchema })
+const { handleSubmit, resetForm, values, setFieldValue } = useForm<CompoundInterestModel>({
+  validationSchema,
+})
 
 const showField = (field: CompoundTarget) => target.value !== field
+
+// Tasa compartida: se usa como valor inicial cuando el campo de tasa está visible.
+const { shared } = useSharedRate()
+
+function applySharedRate() {
+  if (shared.value && showField('rate')) {
+    setFieldValue('ratePercent', shared.value.valuePercent)
+  }
+}
+
+watch(shared, applySharedRate, { immediate: true })
 
 watch(target, () => {
   resetForm()
   result.value = null
+  applySharedRate()
 })
 
 const onSubmit = handleSubmit((formValues) => {
@@ -45,6 +60,7 @@ const onSubmit = handleSubmit((formValues) => {
 function onReset() {
   resetForm()
   result.value = null
+  applySharedRate()
 }
 
 const targetLabel = computed(() => t.targets[target.value])
@@ -56,6 +72,8 @@ defineExpose({ values })
   <section class="card">
     <h2>{{ t.title }}</h2>
     <p class="formula">{{ t.formula }}</p>
+
+    <UiSharedRateNotice />
 
     <UiBaseSelect v-model="target" :label="t.targetQuestion" :options="targetOptions" />
 

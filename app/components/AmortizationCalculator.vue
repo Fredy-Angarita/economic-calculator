@@ -8,6 +8,7 @@ import {
   type AmortizationMode,
 } from '~/composables/useAmortization'
 import { amortizationSchema, type AmortizationModel } from '~/schemas/amortization.schema'
+import { useSharedRate } from '~/composables/useSharedRate'
 import { AMORTIZATION_TEXTS, COMMON_TEXTS } from '~/constants/texts'
 import { formatMoney } from '~/utils/formatNumber'
 
@@ -26,7 +27,7 @@ let lastInput: Omit<AmortizationModel, 'extraPayments'> & {
   extraPayments: { value: number; period: number }[]
 } | null = null
 
-const { handleSubmit, resetForm } = useForm<AmortizationModel>({
+const { handleSubmit, resetForm, setFieldValue } = useForm<AmortizationModel>({
   validationSchema: toTypedSchema(amortizationSchema),
   initialValues: {
     principal: undefined,
@@ -56,10 +57,20 @@ watch(mode, () => {
   if (result.value) compute()
 })
 
+// Tasa compartida: al haber una tasa convertida, se usa como valor inicial.
+const { shared } = useSharedRate()
+
+function applySharedRate() {
+  if (shared.value) setFieldValue('ratePercent', shared.value.valuePercent)
+}
+
+watch(shared, applySharedRate, { immediate: true })
+
 function onReset() {
   resetForm()
   result.value = null
   lastInput = null
+  applySharedRate()
 }
 </script>
 
@@ -67,6 +78,8 @@ function onReset() {
   <section class="card">
     <h2>{{ t.title }}</h2>
     <p class="subtitle">{{ t.subtitle }}</p>
+
+    <UiSharedRateNotice />
 
     <form novalidate @submit="onSubmit">
       <UiBaseInput
