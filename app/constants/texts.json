@@ -87,6 +87,16 @@
         "placeholder": "Ej: 12"
       }
     },
+    "ratePeriodicityLabel": "Periodicidad de la tasa",
+    "periodsUnitLabel": "Tipo de periodicidad",
+    "timeUnits": {
+      "monthly": "Meses",
+      "bimonthly": "Bimestres",
+      "quarterly": "Trimestres",
+      "quarterly4": "Cuatrimestres",
+      "semiannual": "Semestres",
+      "annual": "Años"
+    },
     "results": {
       "presentValue": "Valor presente (VP)",
       "futureValue": "Valor futuro (VF)",

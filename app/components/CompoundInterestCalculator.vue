@@ -4,13 +4,16 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import {
   useCompoundInterest,
+  toRatePeriods,
+  fromRatePeriods,
   type CompoundTarget,
   type CompoundInterestResult,
 } from '~/composables/useCompoundInterest'
 import { compoundInterestSchema, type CompoundInterestModel } from '~/schemas/compoundInterest.schema'
-import { COMPOUND_INTEREST_TEXTS, COMMON_TEXTS } from '~/constants/texts'
+import { COMPOUND_INTEREST_TEXTS, COMMON_TEXTS, RATE_CONVERSION_TEXTS } from '~/constants/texts'
 import { formatMoney, formatPercent, formatNumber } from '~/utils/formatNumber'
 import { useSharedRate } from '~/composables/useSharedRate'
+import { PERIODICITIES, type Periodicity } from '~/composables/useRateConversion'
 
 const t = COMPOUND_INTEREST_TEXTS
 const { solve } = useCompoundInterest()
@@ -22,6 +25,21 @@ const targetOptions = (Object.keys(t.targets) as CompoundTarget[]).map((value) =
 
 const target = ref<CompoundTarget>('futureValue')
 const result = ref<CompoundInterestResult | null>(null)
+const formError = ref('')
+
+// Periodicidad de la tasa (la de sus periodos) y de los periodos n que escribe el usuario.
+const ratePeriodicity = ref<Periodicity>('annual')
+const periodsUnit = ref<Periodicity>('annual')
+
+const periodicityOptions = (Object.keys(PERIODICITIES) as Periodicity[]).map((value) => ({
+  value,
+  label: RATE_CONVERSION_TEXTS.periodicities[value],
+}))
+
+const periodsUnitOptions = (Object.keys(PERIODICITIES) as Periodicity[]).map((value) => ({
+  value,
+  label: t.timeUnits[value],
+}))
 
 const validationSchema = computed(() => toTypedSchema(compoundInterestSchema(target.value)))
 
@@ -36,6 +54,8 @@ const { shared } = useSharedRate()
 
 function applySharedRate() {
   if (shared.value && showField('rate')) {
+    // La tasa compartida es efectiva por periodo de su periodicidad.
+    ratePeriodicity.value = shared.value.periodicity
     setFieldValue('ratePercent', shared.value.valuePercent)
   }
 }
@@ -45,23 +65,43 @@ watch(shared, applySharedRate, { immediate: true })
 watch(target, () => {
   resetForm()
   result.value = null
+  formError.value = ''
   applySharedRate()
 })
 
 const onSubmit = handleSubmit((formValues) => {
-  result.value = solve(target.value, {
-    presentValue: formValues.presentValue ?? null,
-    futureValue: formValues.futureValue ?? null,
-    ratePercent: formValues.ratePercent ?? null,
-    periods: formValues.periods ?? null,
-  })
+  formError.value = ''
+  result.value = null
+  try {
+    // n se transforma a periodos de la tasa antes de resolver.
+    const n = formValues.periods ?? null
+    const periodsInRate = n == null ? null : toRatePeriods(n, periodsUnit.value, ratePeriodicity.value)
+
+    const raw = solve(target.value, {
+      presentValue: formValues.presentValue ?? null,
+      futureValue: formValues.futureValue ?? null,
+      ratePercent: formValues.ratePercent ?? null,
+      periods: periodsInRate,
+    })
+
+    // El resultado de n se muestra en la periodicidad que eligió el usuario.
+    result.value = {
+      ...raw,
+      periods: fromRatePeriods(raw.periods, periodsUnit.value, ratePeriodicity.value),
+    }
+  } catch (error) {
+    formError.value = error instanceof Error ? error.message : String(error)
+  }
 })
 
 function onReset() {
   resetForm()
   result.value = null
+  formError.value = ''
   applySharedRate()
 }
+
+const periodsUnitLabel = computed(() => t.timeUnits[periodsUnit.value])
 
 const targetLabel = computed(() => t.targets[target.value])
 
@@ -101,13 +141,24 @@ defineExpose({ values })
         :label="t.fields.ratePercent.label"
         :placeholder="t.fields.ratePercent.placeholder"
       />
-      <UiBaseInput
-        v-if="showField('periods')"
-        name="periods"
-        type="number"
-        :label="t.fields.periods.label"
-        :placeholder="t.fields.periods.placeholder"
+      <UiBaseSelect
+        v-model="ratePeriodicity"
+        :label="t.ratePeriodicityLabel"
+        :options="periodicityOptions"
       />
+
+      <div class="periods-row">
+        <UiBaseInput
+          v-if="showField('periods')"
+          name="periods"
+          type="number"
+          :label="t.fields.periods.label"
+          :placeholder="t.fields.periods.placeholder"
+        />
+        <UiBaseSelect v-model="periodsUnit" :label="t.periodsUnitLabel" :options="periodsUnitOptions" />
+      </div>
+
+      <p v-if="formError" class="form-error" role="alert">{{ formError }}</p>
 
       <div class="actions">
         <button type="button" class="secondary" @click="onReset">
@@ -133,8 +184,8 @@ defineExpose({ values })
           <strong>{{ formatPercent(result.ratePercent) }}</strong>
         </li>
         <li>
-          <span>{{ t.results.periods }}:</span>
-          <strong>{{ formatNumber(result.periods) }}</strong>
+          <span>{{ t.results.periods }} ({{ periodsUnitLabel }}):</span>
+          <strong>{{ formatNumber(result.periods, 4) }}</strong>
         </li>
         <li>
           <span>{{ t.results.interest }}:</span>
@@ -173,6 +224,28 @@ h2 {
   margin: 0 0 1.5rem;
   color: var(--color-text-muted);
   font-family: var(--font-mono);
+}
+
+.periods-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .periods-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-error {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-danger-text);
+  font-size: 0.85rem;
 }
 
 .actions {
