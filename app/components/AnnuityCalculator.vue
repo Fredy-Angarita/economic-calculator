@@ -9,6 +9,7 @@ import {
   type AnnuityResult,
 } from '~/composables/useAnnuity'
 import { annuitySchema, type AnnuityModel } from '~/schemas/annuity.schema'
+import { useSharedRate } from '~/composables/useSharedRate'
 import { ANNUITY_TEXTS, COMMON_TEXTS } from '~/constants/texts'
 import { formatMoney, formatPercent, formatNumber } from '~/utils/formatNumber'
 
@@ -33,7 +34,7 @@ const result = ref<AnnuityResult | null>(null)
 
 const validationSchema = computed(() => toTypedSchema(annuitySchema(target.value, kind.value)))
 
-const { handleSubmit, resetForm, values } = useForm<AnnuityModel>({
+const { handleSubmit, resetForm, values, setFieldValue } = useForm<AnnuityModel>({
   validationSchema,
   initialValues: {
     ratePercent: undefined,
@@ -66,9 +67,19 @@ const onSubmit = handleSubmit((v) => {
   })
 })
 
+// Tasa compartida: al haber una tasa convertida, se usa como valor inicial.
+const { shared } = useSharedRate()
+
+function applySharedRate() {
+  if (shared.value) setFieldValue('ratePercent', shared.value.valuePercent)
+}
+
+watch(shared, applySharedRate, { immediate: true })
+
 function onReset() {
   resetForm()
   result.value = null
+  applySharedRate()
 }
 
 defineExpose({ values })
@@ -81,6 +92,8 @@ defineExpose({ values })
 
     <UiBaseSelect v-model="kind" :label="t.kindLabel" :options="kindOptions" />
     <UiBaseSelect v-model="target" :label="t.targetLabel" :options="targetOptions" />
+
+    <UiSharedRateNotice />
 
     <form novalidate @submit="onSubmit">
       <UiBaseInput

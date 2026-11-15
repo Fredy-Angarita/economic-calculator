@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import {
@@ -10,6 +10,7 @@ import {
 import { valueEquationSchema, type ValueEquationModel } from '~/schemas/valueEquation.schema'
 import { VALUE_EQUATION_TEXTS, COMMON_TEXTS } from '~/constants/texts'
 import { formatMoney, formatNumber } from '~/utils/formatNumber'
+import { useSharedRate } from '~/composables/useSharedRate'
 
 const t = VALUE_EQUATION_TEXTS
 const { solve } = useValueEquation()
@@ -21,7 +22,7 @@ const unknownOptions = (Object.keys(t.unknownSides) as UnknownSide[]).map((value
 
 const result = ref<ValueEquationResult | null>(null)
 
-const { handleSubmit, defineField, resetForm } = useForm<ValueEquationModel>({
+const { handleSubmit, defineField, resetForm, setFieldValue } = useForm<ValueEquationModel>({
   validationSchema: toTypedSchema(valueEquationSchema),
   initialValues: {
     ratePercent: undefined,
@@ -47,7 +48,17 @@ const onSubmit = handleSubmit((values) => {
 function onReset() {
   resetForm()
   result.value = null
+  applySharedRate()
 }
+
+// Tasa compartida: se usa como valor inicial del campo de tasa.
+const { shared } = useSharedRate()
+
+function applySharedRate() {
+  if (shared.value) setFieldValue('ratePercent', shared.value.valuePercent)
+}
+
+watch(shared, applySharedRate, { immediate: true })
 
 const unknownLabel = computed(() => t.unknownSides[unknownSide.value as UnknownSide])
 </script>
@@ -56,6 +67,8 @@ const unknownLabel = computed(() => t.unknownSides[unknownSide.value as UnknownS
   <section class="card">
     <h2>{{ t.title }}</h2>
     <p class="card__subtitle">{{ t.subtitle }}</p>
+
+    <UiSharedRateNotice />
 
     <form novalidate @submit="onSubmit">
       <!-- Datos generales: tasa + incógnita + fecha focal -->

@@ -6,8 +6,6 @@ useHead({ title: `${COMPOUND_INTEREST_TEXTS.title} · ${APP_TEXTS.title}` })
 
 <template>
   <main class="page">
-    <RateConverter variant="banner" />
-
     <CompoundInterestCalculator />
   </main>
 </template>

@@ -20,9 +20,14 @@ export interface RateConversionInput {
 }
 
 export interface RateConversionResult {
+  /** Tasa convertida al tipo de destino (efectiva o nominal), en porcentaje. */
   valuePercent: number
+  /** Tasa convertida en decimal. */
   value: number
+  /** Tasa efectiva anual, en porcentaje. */
   effectiveAnnualPercent: number
+  /** Tasa efectiva por periodo del destino, en porcentaje (la que usan las calculadoras). */
+  effectivePeriodPercent: number
 }
 
 export function useRateConversion() {
@@ -46,6 +51,7 @@ export function useRateConversion() {
       value: result,
       valuePercent: result * 100,
       effectiveAnnualPercent: ea * 100,
+      effectivePeriodPercent: effectivePeriodTo * 100,
     }
   }
 
